@@ -16,6 +16,8 @@ public class GUI_FileDialog extends JDialog {
 	JButton speciesFileButton = new JButton("Species File");
 	JButton countyFileButton = new JButton("County File");
 	JButton treeDataButton = new JButton("Tree Data File");
+	JButton okButton = new JButton("OK");
+	JButton cancelButton = new JButton("Cancel");
 	
 	JLabel countyFileLabel = new JLabel("<filename>");
 	JLabel speciesFileLabel = new JLabel("<filename>");
@@ -75,13 +77,13 @@ public class GUI_FileDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

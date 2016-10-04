@@ -17,15 +17,21 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JMenuBar;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.AbstractListModel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.JComboBox;
 
 public class GUI {
 
 	JFrame frame = new JFrame();
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField pointsTextField = new JTextField();
-	
-	JTextArea textArea = new JTextArea();
+	JTextField pointsTextField = new JTextField();
 	
 	JPanel panel = new JPanel();
 	JPanel panel_1 = new JPanel();
@@ -47,9 +53,13 @@ public class GUI {
 	JRadioButton wiltRB = new JRadioButton("Trees with Oak Wilt");
 	JRadioButton pointsRB = new JRadioButton("With points exceeding...");
 	
-	
-	
-	
+	JScrollPane jsp = new JScrollPane();
+	DefaultListModel model = new DefaultListModel();
+	final JList list = new JList(model);
+	final JComboBox comboBox = new JComboBox();
+	final JComboBox comboBox_1 = new JComboBox();
+	final JButton btnDisplayAllTrees = new JButton("Display All Trees");
+			
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +89,7 @@ public class GUI {
 	 */
 	public void initialize() {
 		
-		frame.setBounds(100, 100, 1097, 676);
+		frame.setBounds(100, 100, 1265, 716);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -97,6 +107,7 @@ public class GUI {
 		
 		
 		panel_1.add(readInButton);
+		createButton.setEnabled(false);
 		
 		
 		panel_1.add(createButton);
@@ -106,44 +117,43 @@ public class GUI {
 		
 		
 		panel.add(panel_2);
+		btnDisplayAllTrees.setEnabled(false);
 		
-		
-		panel_2.add(displayButton);
-		
-		
+		panel_2.add(btnDisplayAllTrees);
+		displayButton.setEnabled(false);
+				
+		panel_2.add(displayButton);				
 		buttonGroup.add(countyRB);
-		panel_2.add(countyRB);
+		countyRB.setEnabled(false);
+		panel_2.add(countyRB);		
+		comboBox.setEnabled(false);
 		
-		
+		panel_2.add(comboBox);
 		buttonGroup.add(nameRB);
-		panel_2.add(nameRB);
+		nameRB.setEnabled(false);
+		panel_2.add(nameRB);	
+		comboBox_1.setEnabled(false);
 		
-		
+		panel_2.add(comboBox_1);
 		buttonGroup.add(wiltRB);
-		panel_2.add(wiltRB);
-		
-		
+		wiltRB.setEnabled(false);
+		panel_2.add(wiltRB);		
 		buttonGroup.add(pointsRB);
-		panel_2.add(pointsRB);
-		
-		
-		panel.add(panel_3);
-		
-		
-		panel_3.add(deleteButton);
-		
-		
-		panel_3.add(lblPointsExceeding);
-		
-		
+		pointsRB.setEnabled(false);
+		panel_2.add(pointsRB);		
+		panel.add(panel_3);		
+		deleteButton.setEnabled(false);
+		panel_3.add(deleteButton);				
+		panel_3.add(lblPointsExceeding);	
+		pointsTextField.setEnabled(false);
 		panel_3.add(pointsTextField);
 		pointsTextField.setColumns(10);
+		frame.getContentPane().add(jsp, BorderLayout.CENTER);
 		
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
-		frame.getContentPane().add(textArea, BorderLayout.CENTER);
-		textArea.setText(String.format("%-18s%-19s%-13s%-20s%-13s%-19s%-17s%-18s", "County Name" , "Species Name" , "Points" , "Circumference" , "Height" , "Crown Spread" , "Date Added" , "Contributor"));
-		textArea.append("\n______________________________________________________________________________________________________________________________________________");
+		jsp.setViewportView(list);
 	}
 
 }
