@@ -86,7 +86,6 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			createButton.setEnabled(true);
 			displayButton.setEnabled(true);
 			btnDisplayAllTrees.setEnabled(true);
-			deleteButton.setEnabled(true);
 			countyRB.setEnabled(true);
 			nameRB.setEnabled(true);
 			wiltRB.setEnabled(true);
@@ -186,12 +185,16 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		}
 		if(e.getSource() == deleteButton)
 		{
-			
+			deleteTree();
 		}
+		
 	}
 	public void valueChanged(ListSelectionEvent le)
 	{
-		
+		if(le.getSource() == list)
+		{
+			deleteButton.setEnabled(true);
+		}
 	}
 	public File getFile()
 	{
@@ -314,7 +317,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 				String yrStart = tree.getYrStarted();
 				String yrEnd = tree.getYrEnded();
 				String contributor = tree.getName();
-				model.addElement(String.format("%-18s%-45s%-13s%-20s%-13s%-19s%-20s%-20s%-20s", coName, spName, points, circumference, height, crownSpread, yrStart, yrEnd, contributor));			
+				model.addElement(String.format("%-18s%-45s%-13s%-20s%-13s%-19s%-20s%-20s%-20s", coName, spName , points, circumference, height, crownSpread, yrStart, yrEnd, contributor ));			
 				tree = tree.getDownPtr();
 			}
 		}
@@ -373,7 +376,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 						String yrStart = tree.getYrStarted();
 						String yrEnd = tree.getYrEnded();
 						String contributor = tree.getName();
-						model.addElement(String.format("%-18s%-45s%-13s%-20s%-13s%-19s%-20s%-20s%-20s", coName, spName, points, circumference, height, crownSpread, yrStart, yrEnd, contributor));			
+						model.addElement(String.format("%-18s%-45s%-13s%-20s%-13s%-19s%-20s%-20s%-20s", coName, spName, points, circumference, height, crownSpread, yrStart, yrEnd,  contributor));			
 						tree = tree.getDownPtr();
 					}
 				}
@@ -446,6 +449,72 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			}		
 			header.getDownX(countyCounter - 1).setDown(cNN);
 			cNN.setDown(header.getDownX(countyCounter + 1));
+	}
+	public void deleteTree()
+	{
+		CountyNode tempFinder = header;
+		SpeciesNode tmpFinder;
+		TreeNode toDelete;
+		int countyFinder = 0;
+		int speciesFinder = 0;
+		
+		String dTreeData[] = list.getSelectedValue().toString().split("  +");
+		String checkCounty = dTreeData[0];
+		String[] checkSpecies = dTreeData[1].split("/");
+		String checkCommon = checkSpecies[0];
+		double checkPoints = Double.parseDouble(dTreeData[2]);
+		double checkCircum = Double.parseDouble(dTreeData[3]);
+		double checkHeight = Double.parseDouble(dTreeData[4]);
+		double checkCrown = Double.parseDouble(dTreeData[5]);
+		String checkYrSt = dTreeData[6];
+		String checkYrEnd = dTreeData[7];
+		String checkName = dTreeData[8];
+		
+		while(!(tempFinder.getCountyName().equals(checkCounty)))
+		{
+			countyFinder++;
+			tempFinder = tempFinder.getDown();
+		}
+		System.out.println(checkCommon);
+		tmpFinder = header.getDownX(countyFinder).getRight();
+		while(!(tmpFinder.getCommonName().equals(checkCommon)))
+		{
+			tmpFinder = tmpFinder.getRight();
+			speciesFinder++;
+		}
+		
+		toDelete = header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr();
+		for(int i = 0; i < header.getDownX(countyFinder).getRight().getRightX(speciesFinder).numTrees; i++)
+		{
+			if(toDelete.getPoints() == checkPoints && toDelete.getCircumferance() == checkCircum && 
+					toDelete.getHeight() == checkHeight && toDelete.getYrEnded() == checkYrEnd && 
+					toDelete.getYrStarted() == checkYrSt && toDelete.getName() == checkName)
+			{
+				if(header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr().equals(toDelete) && header.getDownX(countyFinder).getRight().getRightX(speciesFinder).numTrees == 1)
+				{
+					header.getDownX(countyFinder).getRight().getRightX(speciesFinder).setDownPtr(null);
+					header.getDownX(countyFinder).getRight().getRightX(speciesFinder).setLastPtr(null);
+					toDelete = null;
+				}
+				if(header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr().equals(toDelete) && header.getDownX(countyFinder).getRight().getRightX(speciesFinder).numTrees > 1)
+				{
+				header.getDownX(countyFinder).getRight().getRightX(speciesFinder).setDownPtr(toDelete.getDownPtr());
+				toDelete = null;
+				}
+				if(header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getLastPtr().equals(toDelete) && header.getDownX(countyFinder).getRight().getRightX(speciesFinder).numTrees > 1)
+				{				
+					header.getDownX(countyFinder).getRight().getRightX(speciesFinder).setLastPtr(header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr().getDownPtrX(i - 1));
+					header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr().getDownPtrX(i - 1).setDownPtr(null);
+					toDelete = null;
+				} else {
+					header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr().getDownPtrX(i - 1).setDownPtr(header.getDownX(countyFinder).getRight().getRightX(speciesFinder).getDownPtr().getDownPtrX(i + 1));
+					toDelete = null;
+				}				
+			} 
+			toDelete = toDelete.getDownPtr();
+		}
+		header.getDownX(countyFinder).getRight().getRightX(speciesFinder).numTrees--;
+		model.remove(list.getSelectedIndex());
 	}
 	public interface CountyNamesNodeInterface
 	{
@@ -841,6 +910,17 @@ public class TreeNode implements TreeNodeInterface
 	@Override
 	public void setDownPtr(TreeNode p) {
 		this.TreeNodePtr = p;
+	}
+	public TreeNode getDownPtrX(int x)
+	{
+		int y = 0;
+		TreeNode temp = this;
+		while(y < x)
+		{
+			temp = temp.getDownPtr();			
+			y++;
+		}
+		return temp;
 	}
 	
 }
