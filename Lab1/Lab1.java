@@ -1,4 +1,5 @@
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +14,28 @@ import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.xml.soap.Node;
+/* Name: Luke Reddick
+ * Class: COSC 20803 Data Structures
+ * Professor: Dr. Comer
+ * Date: 10/2016
+ * 
+ * This program loads a simple GUI that requests the user to read in county, species, and tree data information
+ * via three text files. After the text file data has been initialized into a linked list data structure, the user
+ * is free to make adjustments to the data. They can add report a tree of their own into the database, remove a tree
+ * from the database, and display trees by county, species, and points based on the Oak Wilt metric.
+ * 
+ * In addition to the interface provided by Dr. Comer, I have created additional methods called getDownX, getRightX, and getDownPtrX
+ * which allow the program to traverse the linked list in a more tangible way. 
+ * 
+ * The linked list data structure is built off the single "header" CountyNode. This variable is the root of my linked lists. 
+ * Other noteworthy variables include:
+ * numCounties -- to keep track of how many counties are read in at initialization
+ * numSpefcies -- to keep track of how many species are read in at initialization
+ * cbr, sbr, tbr -- the buffered readers to each data file, responsible for reading in the data.
+ * tN -- a tree node that temporarily gathers the tree data from the third file and loads it into the oak wilt linked list.
+ * sNFinder -- a species node responsible for temporarily traversing the oak wilt linked list to insert tree data.
+ * 
+ */
 
 public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 	
@@ -22,6 +45,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 	BufferedReader cbr, sbr, tbr;
 	CountyNode header;
 	TreeNode tN;
+	int numCounties, numSpecies;
 
 	public static void main(String args[])
 	{
@@ -88,11 +112,10 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			btnDisplayAllTrees.setEnabled(true);
 			countyRB.setEnabled(true);
 			nameRB.setEnabled(true);
-			wiltRB.setEnabled(true);
 			pointsRB.setEnabled(true);
 			comboBox.setEnabled(true);
 			comboBox_1.setEnabled(true);
-			pointsTextField.setEnabled(true);
+			pointsSpinner.setEnabled(true);
 			
 			fDialog.dispose();
 			}
@@ -125,51 +148,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			}
 		if(e.getSource() == dialog.submitButton)
 			{
-			int counterC = 0;
-			int counterS = 1;
-				TreeNode newTree = new TreeNode();
-				CountyNode tempCCounter = header;
-				
-				while(!(tempCCounter.getCountyName().equals(dialog.countyBox.getSelectedItem())))
-				{
-					counterC++;
-					tempCCounter = tempCCounter.getDown();
-				}
-				SpeciesNode tempSCounter = header.getDownX(counterC).getRight();
-				while(!(tempSCounter.getRight().getCommonName().equals(dialog.speciesBox.getSelectedItem())))
-				{
-					counterS++;
-					tempSCounter = tempSCounter.getRight();
-				}
-								
-				Double newCircum = Double.parseDouble(dialog.circumTextField.getText().trim());
-				Double newHeight = Double.parseDouble(dialog.heightTextField.getText().trim());
-				Double newCrownSpread = Double.parseDouble(dialog.crownTextField.getText().trim());
-				Double newPoints = (double) Math.round(newCircum + newHeight + (0.25 * newCrownSpread));
-				String yearStart = dialog.startingTextField.getText().trim();
-				String yearEnd = dialog.endingTextField.getText().trim();
-				String newName = dialog.nameTextField.getText();
-				
-				newTree.setCircumferance(newCircum);
-				newTree.setHeight(newHeight);
-				newTree.setCrownSpread(newCrownSpread);
-				newTree.setPoints(newPoints);
-				newTree.setName(newName);
-				newTree.setYrEnded(yearEnd);
-				newTree.setYrStarted(yearStart);
-				newTree.setDownPtr(null);
-				if(header.getDownX(counterC).getRight().getRightX(counterS).numTrees > 0)
-				{
-					header.getDownX(counterC).getRight().getRightX(counterS).getLastPtr().setDownPtr(newTree);
-					header.getDownX(counterC).getRight().getRightX(counterS).setLastPtr(newTree);
-				} else {
-					header.getDownX(counterC).getRight().getRightX(counterS).setDownPtr(newTree);
-					header.getDownX(counterC).getRight().getRightX(counterS).setLastPtr(newTree);
-				}
-				
-				header.getDownX(counterC).numCountyTrees++;
-				header.getDownX(counterC).getRight().getRightX(counterS).numTrees++;
-				dialog.dispose();
+				addNewTree();
 			}
 		if(e.getSource() == cancelButton)
 		{
@@ -189,14 +168,18 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		}
 		
 	}
+	// Only allow user to delete list elements that contain tree data. 
 	public void valueChanged(ListSelectionEvent le)
 	{
-		if(le.getSource() == list)
+		if(le.getSource() == list  && list.getSelectedIndex() >= 2)
 		{
 			deleteButton.setEnabled(true);
+		} else {
+			deleteButton.setEnabled(false);
 		}
+		
 	}
-	public File getFile()
+	public File getFile() throws NullPointerException
 	{
 		JFileChooser fc = new JFileChooser();
 		int returnVal = fc.showOpenDialog(frame);
@@ -207,6 +190,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		}
 		return null;
 	}
+// This method executes after the user has clicked submit to read in all 3 data files.
 	public void createOakWiltLL() throws IOException
 	{
 		
@@ -233,7 +217,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 // Build the county nodes into a county nodes linked list and point them to a header species node.
 		CountyNode temp = header;
 		String cityName = cbr.readLine();
-		int numCounties = 0;
+		numCounties = 0;
 		while(cityName != null)
 		{
 			CountyNode curr = new CountyNode();
@@ -274,6 +258,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 				{
 				comboBox_1.addItem(curr.getCommonName());
 				dialog.speciesBox.addItem(curr.getCommonName());
+				numSpecies++;
 				}
 				speciesLine = sbr.readLine();
 			}
@@ -283,6 +268,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		}
 			
 // Build the tree nodes into null-terminated linked lists and attach them accordingly
+		
 		CountyNode tempCN = header;
 		while(!(tempCN.getDown().getCountyName().equals("Head")))
 		{
@@ -292,19 +278,20 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		
 		displayAllTrees();
 }
+// This method uses a triply nested for loop to iterate through each county and species to append each tree's data to the GUI list.
    public void displayAllTrees()
     {
 	model.removeAllElements();
 	model.addElement(String.format("%-18s%-45s%-13s%-20s%-13s%-19s%-20s%-20s%-20s", "County", "Species Name", "Points", "Circumference", "Height", "Crown Spread", "Starting Year", "Ending Year", "Contributor"));
 	model.addElement("________________________________________________________________________________________________________________________________________________________________________________________________________________");
 	
-	for(int i = 1; i < 11; i++)
+	for(int i = 1; i < numCounties + 1; i++)
 	{
 		int j = 1;		
 		String coName = header.getDownX(i).getCountyName();
-		if(header.getDownX(i).getNumTrees() == 0) j = 23;
+		if(header.getDownX(i).getNumTrees() == 0) j = numSpecies + 1;
 	
-		for(j = 1; j < 23; j++)
+		for(j = 1; j < numSpecies + 1; j++)
 		{	
 		 String spName = header.getDownX(i).getRight().getRightX(j).getCommonName() + "/" + header.getDownX(i).getRight().getRightX(j).getScientificName();	
 		 TreeNode tree = header.getDownX(i).getRight().getRightX(j).getDownPtr();
@@ -323,6 +310,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		}
 		}
 	}
+ // This method is for displaying trees by a parameter set by the radio buttons. It loops through the counties and species but with different limits or adjusted outputs.
 	   public void displayTreesBy()
 	    {
 		   model.removeAllElements();
@@ -335,10 +323,10 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		   int b = 0;
 		   CountyNode tempC = header;
 		   SpeciesNode tempS = header.getDown().getRight();
-		   if(countyRB.isSelected() == true)
+		   if(countyRB.isSelected())
 		   {
 			   y = 1;
-			   b = 23;
+			   b = numSpecies + 1;
 			   while(!(tempC.getCountyName().equals(comboBox.getSelectedItem())))
 			   {
 				   x++;
@@ -346,10 +334,10 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			   }
 			   a = x + 1;
 		   }
-		   if(nameRB.isSelected() == true)
+		   if(nameRB.isSelected())
 		   {
 			   x = 1;
-			   a = 11;
+			   a =  numCounties + 1;
 			   while(!(tempS.getCommonName().equals(comboBox_1.getSelectedItem())))
 			   {
 				   y++;
@@ -357,11 +345,42 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			   }
 			   b = y + 1;
 		   }
+		   if(pointsRB.isSelected())
+		   {
+			   x = y = a = b = 0;
+				for(int i = 1; i < numCounties; i++)
+				{
+					int j = 1;		
+					String coName = header.getDownX(i).getCountyName();
+					if(header.getDownX(i).getNumTrees() == 0) j = numSpecies + 1;
+				
+					for(j = 1; j < numSpecies; j++)
+					{	
+					 String spName = header.getDownX(i).getRight().getRightX(j).getCommonName() + "/" + header.getDownX(i).getRight().getRightX(j).getScientificName();	
+					 TreeNode tree = header.getDownX(i).getRight().getRightX(j).getDownPtr();
+					 for(int k = 0; k < header.getDownX(i).getRight().getRightX(j).getNumTrees(); k++)
+						{			
+							Double points = tree.getPoints();
+							Double circumference = tree.getCircumferance();
+							Double height = tree.getHeight();
+							Double crownSpread = tree.getCrownSpread();
+							String yrStart = tree.getYrStarted();
+							String yrEnd = tree.getYrEnded();
+							String contributor = tree.getName();
+							if(points >= ((Integer) pointsSpinner.getValue()))
+							{
+								model.addElement(String.format("%-18s%-45s%-13s%-20s%-13s%-19s%-20s%-20s%-20s", coName, spName, points, circumference, height, crownSpread, yrStart, yrEnd,  contributor));	
+							} 
+							tree = tree.getDownPtr();
+						}
+					}
+				}
+		   }
 			for(int i = x; i < a; i++)
 			{
 				int j = 1;		
 				String coName = header.getDownX(i).getCountyName();
-				if(header.getDownX(i).getNumTrees() == 0) j = 23;
+				if(header.getDownX(i).getNumTrees() == 0) j = numSpecies + 1;
 			
 				for(j = y; j < b; j++)
 				{	
@@ -382,6 +401,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 				}
 				}	
 	    }
+// This method is responsible for placing each new tree node into its proper place in the oak wilt linked list. 
 	public void loadTreeData() throws NumberFormatException, IOException
 	{
 			int countyCounter = 0;
@@ -450,6 +470,7 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			header.getDownX(countyCounter - 1).setDown(cNN);
 			cNN.setDown(header.getDownX(countyCounter + 1));
 	}
+// This method iterates through the oak wilt linked list to find the tree data the user has indicated for deletion and removes all pointers to that node. 
 	public void deleteTree()
 	{
 		CountyNode tempFinder = header;
@@ -475,7 +496,6 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 			countyFinder++;
 			tempFinder = tempFinder.getDown();
 		}
-		System.out.println(checkCommon);
 		tmpFinder = header.getDownX(countyFinder).getRight();
 		while(!(tmpFinder.getCommonName().equals(checkCommon)))
 		{
@@ -516,6 +536,62 @@ public class Lab1 extends GUI implements ActionListener , ListSelectionListener{
 		header.getDownX(countyFinder).getRight().getRightX(speciesFinder).numTrees--;
 		model.remove(list.getSelectedIndex());
 	}
+// This method will take the input from the user in the dialog box and load it into a new tree node, traverse the oak wilt linked list, and attach the new tree accordingly. 
+	public void addNewTree()
+	{
+		int counterC = 0;
+		int counterS = 1;
+			TreeNode newTree = new TreeNode();
+			CountyNode tempCCounter = header;
+			
+			Double newCircum = Double.parseDouble(dialog.circumTextField.getText().trim());
+			Double newHeight = Double.parseDouble(dialog.heightTextField.getText().trim());
+			Double newCrownSpread = Double.parseDouble(dialog.crownTextField.getText().trim());
+			Double newPoints = (double) Math.round(newCircum + newHeight + (0.25 * newCrownSpread));
+			String yearStart = dialog.startingTextField.getText().trim();
+			String yearEnd = dialog.endingTextField.getText().trim();
+			String newName = dialog.nameTextField.getText();
+			
+			if(newPoints < 200)
+			{
+				dialog.currPointsLbl.setText("Tree does not meet the required amount of points (200).");
+			} else {
+			
+			while(!(tempCCounter.getCountyName().equals(dialog.countyBox.getSelectedItem())))
+			{
+				counterC++;
+				tempCCounter = tempCCounter.getDown();
+			}
+			SpeciesNode tempSCounter = header.getDownX(counterC).getRight();
+			while(!(tempSCounter.getRight().getCommonName().equals(dialog.speciesBox.getSelectedItem())))
+			{
+				counterS++;
+				tempSCounter = tempSCounter.getRight();
+			}
+										
+			newTree.setCircumferance(newCircum);
+			newTree.setHeight(newHeight);
+			newTree.setCrownSpread(newCrownSpread);
+			newTree.setPoints(newPoints);
+			newTree.setName(newName);
+			newTree.setYrEnded(yearEnd);
+			newTree.setYrStarted(yearStart);
+			newTree.setDownPtr(null);
+			if(header.getDownX(counterC).getRight().getRightX(counterS).numTrees > 0)
+			{
+				header.getDownX(counterC).getRight().getRightX(counterS).getLastPtr().setDownPtr(newTree);
+				header.getDownX(counterC).getRight().getRightX(counterS).setLastPtr(newTree);
+			} else {
+				header.getDownX(counterC).getRight().getRightX(counterS).setDownPtr(newTree);
+				header.getDownX(counterC).getRight().getRightX(counterS).setLastPtr(newTree);
+			}
+			
+			header.getDownX(counterC).numCountyTrees++;
+			header.getDownX(counterC).getRight().getRightX(counterS).numTrees++;
+			dialog.dispose();
+			}
+	}
+// Below are all the interfaces and class nodes for the CountyNodes, SpeciesNodes, and TreeNodes that make up each of the nodes in the oak wilt linked list. 
 	public interface CountyNamesNodeInterface
 	{
 	// ******************PUBLIC METHODS******************************************

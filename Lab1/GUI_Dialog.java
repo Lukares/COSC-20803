@@ -30,6 +30,8 @@ public class GUI_Dialog extends JDialog {
 	 JComboBox countyBox;
 	 JComboBox speciesBox;
 	 
+	JLabel currPointsLbl = new JLabel("");
+	 
 
 	/**
 	 * Launch the application.
@@ -92,7 +94,7 @@ public class GUI_Dialog extends JDialog {
 			contentPanel.add(panel);
 			panel.setLayout(new GridLayout(0, 4, 10, 0));
 			{
-				JLabel circumferenceLbl = new JLabel("Circumference:");
+				JLabel circumferenceLbl = new JLabel("Circumference (in):");
 				panel.add(circumferenceLbl);
 			}
 			{
@@ -101,7 +103,7 @@ public class GUI_Dialog extends JDialog {
 				circumTextField.setColumns(10);
 			}
 			{
-				JLabel crownSpreadLbl = new JLabel("Crown Spread: ");
+				JLabel crownSpreadLbl = new JLabel("Crown Spread (ft):");
 				panel.add(crownSpreadLbl);
 			}
 			{
@@ -115,7 +117,7 @@ public class GUI_Dialog extends JDialog {
 			contentPanel.add(panel);
 			panel.setLayout(new GridLayout(0, 4, 10, 0));
 			{
-				JLabel heightLbl = new JLabel("Height: ");
+				JLabel heightLbl = new JLabel("Height (ft):");
 				panel.add(heightLbl);
 			}
 			{
@@ -153,6 +155,15 @@ public class GUI_Dialog extends JDialog {
 			{
 				endingTextField = new JTextField();
 				panel.add(endingTextField);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
+			contentPanel.add(panel);
+			{
+				currPointsLbl.setFont(new Font("Copperplate Gothic Light", Font.ITALIC, 12));
+				currPointsLbl.setHorizontalAlignment(SwingConstants.CENTER);
+				panel.add(currPointsLbl);
 			}
 		}
 		{

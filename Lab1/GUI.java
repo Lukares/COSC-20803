@@ -26,12 +26,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JComboBox;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class GUI {
 
 	JFrame frame = new JFrame();
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	JTextField pointsTextField = new JTextField();
 	
 	JPanel panel = new JPanel();
 	JPanel panel_1 = new JPanel();
@@ -39,7 +40,6 @@ public class GUI {
 	JPanel panel_3 = new JPanel();
 	
 	JLabel titleLabel = new JLabel("Texas County Oak Wilt Database");
-	JLabel lblPointsExceeding = new JLabel("Points Exceeding:");
 	
 	
 	JButton readInButton = new JButton("Read Tree Data From File");
@@ -50,7 +50,6 @@ public class GUI {
 	
 	JRadioButton countyRB = new JRadioButton("By County");
 	JRadioButton nameRB = new JRadioButton("By Common Name");
-	JRadioButton wiltRB = new JRadioButton("Trees with Oak Wilt");
 	JRadioButton pointsRB = new JRadioButton("With points exceeding...");
 	
 	JScrollPane jsp = new JScrollPane();
@@ -59,6 +58,7 @@ public class GUI {
 	final JComboBox comboBox = new JComboBox();
 	final JComboBox comboBox_1 = new JComboBox();
 	final JButton btnDisplayAllTrees = new JButton("Display All Trees");
+	final JSpinner pointsSpinner = new JSpinner();
 			
 	/**
 	 * Launch the application.
@@ -135,19 +135,17 @@ public class GUI {
 		comboBox_1.setEnabled(false);
 		
 		panel_2.add(comboBox_1);
-		buttonGroup.add(wiltRB);
-		wiltRB.setEnabled(false);
-		panel_2.add(wiltRB);		
 		buttonGroup.add(pointsRB);
 		pointsRB.setEnabled(false);
-		panel_2.add(pointsRB);		
+		panel_2.add(pointsRB);
+		pointsSpinner.setToolTipText("Increment to see trees with points higher than selectede value.");
+		pointsSpinner.setModel(new SpinnerNumberModel(new Integer(200), new Integer(200), null, new Integer(1)));
+		
+		panel_2.add(pointsSpinner);
 		panel.add(panel_3);		
+		pointsSpinner.setEnabled(false);
 		deleteButton.setEnabled(false);
-		panel_3.add(deleteButton);				
-		panel_3.add(lblPointsExceeding);	
-		pointsTextField.setEnabled(false);
-		panel_3.add(pointsTextField);
-		pointsTextField.setColumns(10);
+		panel_3.add(deleteButton);
 		frame.getContentPane().add(jsp, BorderLayout.CENTER);
 		
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
