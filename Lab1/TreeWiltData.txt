@@ -1,0 +1,98 @@
+Collin
+Basket Oak/220/160/34/102/1986/2016/Bill Smith
+Basket Oak/212/135/59/73/1989/2016/Bill Smith
+Bur Oak/301/210/66/100/2003/2016/Hallie Pena
+Live Oak/432/361/48/91/2002/2015/Phil Cates
+Mexican White Oak/224/160/55/34/2007/2012/George Jones
+Pin Oak/252/179/55/72/2007/2016/Sallie Smith
+Pin Oak/243/180/45/70/2007/2015/Sallie Smith
+Pin Oak/214/151/45/72/2007/2016/Sallie Smith
+Pin Oak/213/150/45/70/2007/2016/Sallie Smith
+Post Oak/303/219/63/83/2009/2015/Sarah Jones
+Post Oak/218/145/53/80/2009/2016/Sarah Jones
+White Oak/234/155/60/77/2012/2014/Tom Dooley
+Willow Oak/269/193/53/93/2011/2014/Terry Smith
+$$$$$
+Dallas
+Chinquapin Oak/353/256/78/76/2007/2016/Billy Bob Thornton
+Chinquapin Oak/237/110/114/53/2011/2015/Billy Bob Thornton
+Chinquapin Oak/395/271/98/104/1981/2016/Billy Bob Thornton
+Chinquapin Oak/308/208/82/723/2009/2016/Billy Bob Thornton
+Live Oak/320/196/104/78/1995/2014/Paul Thompson
+Live Oak/409/254/122/130/2012/2014/Paul Thompson
+Live Oak/385/285/81/74/2007/2010/Paul Thompson
+Live Oak/296/228/48/81/1995/2013/Paul Thompson
+$$$$$
+Denton
+Emory Oak/498/393/84/83/2012/2016/Charles Davis
+Nuttail Oak/281/211/49/84/1986/2015/Kate Smith
+Post Oak/530/394/112/94/2012/2016/Joesph Tipton
+Southern Red Oak/525/348/154/93/1982/2012/Teddy Roark
+Texas Oak/696/557/102/150/2012/2015/Wilma Davis
+$$$$$
+Ellis
+Mossycup Oak/480/327/125/112/2003/2010/Pat Young
+Shumard Oak/223/162/46/61/2011/2015/Upton Wilson
+$$$$$
+Johnson
+$$$$$
+Kaufman
+Gray Oak/208/123/64/82/1968/2012/Philip Cates
+Overcup Oak/286/195/65/104/1985/2000/George Jones
+Southern Red Oak/508/341/137/118/1996/2011/Kate Jones
+Texas Oak/275/182/75/71/2007/2015/George Jones
+Texas Oak/537/428/83/104/2001/2016/Hallie Pena
+White Oak/301/210/66/100/2003/2015/Harry Smith
+$$$$$
+Parker
+Live Oak/432/361/48/91/2002/2012/Jack Jones
+Mexican White Oak/341/219/106/64/2003/2016/Larry Houston
+Mexican White Oak/354/245/83/102/1996/2000/Jack Smith
+Mexican White Oak/448/328.8/94/101/2002/2011/Jack Smith
+Mexican White Oak/524/348/151/99/1979/2000/Jack Smith
+Mexican White Oak/404/311/76/69/2006/2008/Jack Smith
+Mexican White Oak/356/227/105/95/2006/2008/Jack Smith
+Post Oak/415/265/130/81/2006/2008/Jerry Thomas
+Post Oak/426/294/106/103/2009/2010/Jerry Thomas
+Post Oak/412/285/95/127/2010/2016/Jerry Thomas
+Post Oak/526/348/153/99/2010/2016/Jerry Thomas
+Shumard Oak/429/289/108/129/2011/2012/Sally Jones
+Shumard Oak/269/193/53/92.5/2011/2012/Sally Jones
+Shumard Oak/461/310/122/116/2011/2016/Sally Jones
+Southern Red Oak/462/310/122/118.08/2010/2016/Mike Bates
+Southern Red Oak/301/163/117/85/2012/2016/Mike Bates
+Willow Oak/622/473/124/98/2012/2014/Otto Jones
+Willow Oak/407/276/105/104/2012/2016/Otto Jones
+$$$$$
+Rockwall
+Bluejack Oak/407/276/105/104/2012/2013/Billy Hobbs
+Chisos Red Oak/330/214.7/94/83.5/1995/2011/Steve Jobs
+Post Oak/229/115/95/74/2014/2016/Bill Gates
+White Oak/331/178/130/90/2014/2016/Larry Longfellow
+White Oak/447/286/136/101.5/2014/2016/Larry Longfellow
+White Oak/366/247/96/90/2015/2016/Larry Longfellow
+$$$$$
+Tarrant
+Basket Oak/448/313/109/102/2007/2012/Paul Phillips
+Basket Oak/394/272/97/101/2007/2012/Paul Phillips
+Basket Oak/246/156/69/82/2006/2011/Paul Phillips
+Basket Oak/286/158/100/110/1997/2011/Paul Phillips
+Cherrybark Oak/472/324/115/130/2008/2012/Tom Thomas
+Cherrybark Oak/202/135/57/40/2011/2011/Tom Thomas
+Chisos Red Oak/364/254/79/125/2011/2014/Harry Hines
+Chisos Red Oak/364/261/76/108/2012/2014/Harry Hines
+Emory Oak/360/201/128/122/2012/2014/Paul Tibbits
+Emory Oak/621/499/97/98/2012/2014/Paul Tibbits
+Nuttail Oak/406/286/91/114/2013/2015/Terry Niece
+Overcup Oak/234/155/60/77/2012/2015/Tom Young
+Pin Oak/458/313/110/138/2011/2015/Ralph Young
+Shumard Oak/467/328/105/137/2013/2016/William Tims
+Shumard Oak/370/231/117/88/1989/2000/William Smith
+Southern Red Oak/451/331/90/120/2012/2016/William Smith
+$$$$$
+Wise
+Blackjack Oak/432/338/65/114/2014/2016/George Jones
+Blackjack Oak/408/288/97/91/2014/2016/George Jones
+Blackjack Oak/407/282/99/104/2003/2-16/George Jones
+Blackjack Oak/400/298/75/109/2001/2011/George Jones
+$$$$$
